@@ -3,3 +3,4 @@ flask
 transitions==0.6.9
 
 pymessenger
+gunicorn
