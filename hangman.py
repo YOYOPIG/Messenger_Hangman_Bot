@@ -19,7 +19,7 @@ class Hangman(object):
         # Read in the words file
         self.get_target_word("words.txt")
         self.target_length=len(self.target_word)
-        print("len = ", self.target_length)
+        print(self.target_word)
 
         # Print starting msg
         print("Game started.")
