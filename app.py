@@ -2,11 +2,14 @@
 import random
 from flask import Flask, request
 from pymessenger.bot import Bot
+from hangman import Hangman
 
 app = Flask(__name__)
 ACCESS_TOKEN = 'EAAGI3SnPwP0BADklLvvbmG4aWBMN4PXfAT9plW2JthDh7TRhXdk4uwu1TMtusi4zcD9w4M2dZBAZAQtdwOXsGqHPl7BQwH5Wl7ORuwDXmB2XeeiJbxePDX91MINvgFJ0Xpy38mj8nw0FODdcp2OgIlrXbwrXstK6KZAo1D1t7m8G0XZCLiCF'
 VERIFY_TOKEN = 'TooTiredToYEE'
 bot = Bot(ACCESS_TOKEN)
+game = Hangman("hangman")
+game.game_start()
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
@@ -18,7 +21,7 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
-        # get whatever message a user sent the bot
+       # get whatever message a user sent the bot
        output = request.get_json()
        for event in output['entry']:
           messaging = event['messaging']
@@ -27,15 +30,18 @@ def receive_message():
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
                 #send image
-                if message['message'].get('text'):
-                    print("Sending image")
-                    response_sent_text = "https://i.imgur.com/dTki2aL.jpg"
-                    send_image(recipient_id, response_sent_text)
-                    print("image sent")
+                if message['message'].get('text') == "start":
+                    ret_msg = game.game_start()
+                    send_message(recipient_id, ret_msg)
+                elif message['message'].get('text'):
+                    ret_msg = game.input_word(message['message'].get('text'))
+                    send_message(recipient_id, ret_msg)
+                    ret_msg = game.check_game_status()
+                    send_message(recipient_id, ret_msg)
                 #if user sends us a GIF, photo,video, or any other non-text item
                 if message['message'].get('attachments'):
-                    response_sent_nontext = get_message()
-                    send_message(recipient_id, response_sent_nontext)
+                    response_sent_photo = "https://i.imgur.com/dTki2aL.jpg"
+                    send_image(recipient_id, response_sent_photo)
     return "Message Processed"
 
 
