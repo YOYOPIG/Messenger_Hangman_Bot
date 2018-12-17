@@ -9,7 +9,7 @@ ACCESS_TOKEN = 'EAAGI3SnPwP0BADklLvvbmG4aWBMN4PXfAT9plW2JthDh7TRhXdk4uwu1TMtusi4
 VERIFY_TOKEN = 'TooTiredToYEE'
 bot = Bot(ACCESS_TOKEN)
 game = Hangman("hangman")
-game.game_start()
+#game.game_start()
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
@@ -35,12 +35,15 @@ def receive_message():
                     send_message(recipient_id, ret_msg)
                 elif message['message'].get('text'):
                     # User is playing
-                    ret_msg = game.input_word(message['message'].get('text'))
-                    send_message(recipient_id, ret_msg)
-                    ret_msg = game.check_game_status()
-                    #ret_img = game.get_hangman_photo_url
-                    #send_image(recipient_id, ret_img)
-                    send_message(recipient_id, ret_msg)
+                    if game.get_game_done():
+                        send_message(recipient_id, "Hi there! Type start to start playing!")
+                    else:
+                        ret_msg = game.input_word(message['message'].get('text'))
+                        send_message(recipient_id, ret_msg)
+                        ret_msg = game.check_game_status()
+                        ret_img = game.get_hangman_photo_url()
+                        send_image(recipient_id, ret_img)
+                        send_message(recipient_id, ret_msg)
                 #if user sends us a GIF, photo,video, or any other non-text item, reply yee
                 if message['message'].get('attachments'):
                     response_sent_photo = "https://i.imgur.com/dTki2aL.jpg"

@@ -78,8 +78,16 @@ class Hangman(object):
         # Make sure its lowercase!
         guess = user_input.lower()
         if len(guess)>1:
-            # Invalid guess
-            string = "Oops! You should only type a letter at a time"
+            if len(guess)==self.target_length:
+                if guess==self.target_word:
+                    self.hit_ctr = self.target_length
+                    string = "That's right!"
+                else:
+                    string = guess + " is not my word! heheXD\n"
+                    string += self.get_guessed_word(self.target_word, self.guessed_letters)
+            else:
+                # Invalid guess
+                string = "Oops! You should only type a letter at a time"
         elif guess  in self.guessed_letters:
             # Invalid guess 2
             string = "Oops! You've already guessed that letter! \n"
@@ -132,6 +140,8 @@ class Hangman(object):
         else:
             return "https://i.imgur.com/otFbGVh.png"
 
+    def get_game_done(self):
+        return self.gg
 
     def back_to_running(self):
         return
