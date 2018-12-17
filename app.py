@@ -38,8 +38,8 @@ def receive_message():
                     ret_msg = game.input_word(message['message'].get('text'))
                     send_message(recipient_id, ret_msg)
                     ret_msg = game.check_game_status()
-                    ret_img = game.get_hangman_photo_url
-                    send_image(recipient_id, ret_img)
+                    #ret_img = game.get_hangman_photo_url
+                    #send_image(recipient_id, ret_img)
                     send_message(recipient_id, ret_msg)
                 #if user sends us a GIF, photo,video, or any other non-text item, reply yee
                 if message['message'].get('attachments'):
