@@ -118,19 +118,19 @@ class Hangman(object):
 
     def get_hangman_photo_url(self):
         if self.miss_ctr==0:
-            return "https://imgur.com/LiokmcN"
+            return "https://i.imgur.com/LiokmcN.png"
         elif self.miss_ctr==1:
-            return "https://imgur.com/F1S6nD6"
+            return "https://i.imgur.com/F1S6nD6.png"
         elif self.miss_ctr==2:
-            return "https://imgur.com/CJiX6Vx"
+            return "https://i.imgur.com/CJiX6Vx.png"
         elif self.miss_ctr==3:
-            return "https://imgur.com/1Bptnnf"
+            return "https://i.imgur.com/1Bptnnf.png"
         elif self.miss_ctr==4:
-            return "https://imgur.com/lZGclGD"
+            return "https://i.imgur.com/lZGclGD.png"
         elif self.miss_ctr==5:
-            return "https://imgur.com/e5ONTNd"
+            return "https://i.imgur.com/e5ONTNd.png"
         else:
-            return "https://imgur.com/otFbGVh"
+            return "https://i.imgur.com/otFbGVh.png"
 
 
     def back_to_running(self):
