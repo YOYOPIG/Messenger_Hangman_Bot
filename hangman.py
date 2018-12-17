@@ -1,11 +1,21 @@
 import random
+from transitions import Machine
 
 class Hangman(object):
 
     WORDLIST_FILENAME = "words.txt"
+    states = ['idle', 'game running', 'finding word', 'checking status']
 
     def __init__(self, name):
         self.name = name
+        self.gg=True #bool for game over
+        self.machine = Machine(model=self, states=Hangman.states, initial='idle')
+        self.machine.add_transition(trigger='game_start', source='idle', dest='game running')
+        self.machine.add_transition(trigger='input_word', source='game running', dest='finding word')
+        self.machine.add_transition(trigger='check_game_status', source='finding word', dest='checking status')
+        self.machine.add_transition(trigger='back_to_running', source='checking status', dest='game running')
+        self.machine.add_transition(trigger='game_over', source='checking status', dest='idle')
+
 
     # Initialize the game state
     def game_start(self):
@@ -15,6 +25,7 @@ class Hangman(object):
         self.target_word = ""
         self.total_chances = 6
         self.guessed_letters= ""
+        self.gg = False
 
         # Read in the words file
         self.get_target_word("words.txt")
@@ -93,11 +104,38 @@ class Hangman(object):
         print("len = ", self.target_length)
         if self.hit_ctr==self.target_length:
             string = "Congratulations, you won!"
+            self.game_over()
         elif self.total_chances - self.miss_ctr>0:
-            string = "You have"
+            string = "You have "
             string += str(self.total_chances - self.miss_ctr)
-            string += "guesses left."
+            string += " guesses left."
+            self.back_to_running()
         elif self.total_chances - self.miss_ctr==0:
             string = "Sorry, you ran out of guesses. The word was "
             string += self.target_word
+            self.game_over()
         return string
+
+    def get_hangman_photo_url(self):
+        if self.miss_ctr==0:
+            return "https://imgur.com/LiokmcN"
+        elif self.miss_ctr==1:
+            return "https://imgur.com/F1S6nD6"
+        elif self.miss_ctr==2:
+            return "https://imgur.com/CJiX6Vx"
+        elif self.miss_ctr==3:
+            return "https://imgur.com/1Bptnnf"
+        elif self.miss_ctr==4:
+            return "https://imgur.com/lZGclGD"
+        elif self.miss_ctr==5:
+            return "https://imgur.com/e5ONTNd"
+        else:
+            return "https://imgur.com/otFbGVh"
+
+
+    def back_to_running(self):
+        return
+
+    def game_over(self):
+        self.gg = True
+        return

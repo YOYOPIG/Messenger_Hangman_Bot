@@ -29,16 +29,19 @@ def receive_message():
             if message.get('message'):
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
-                #send image
+                #send msg
                 if message['message'].get('text') == "start":
                     ret_msg = game.game_start()
                     send_message(recipient_id, ret_msg)
                 elif message['message'].get('text'):
+                    # User is playing
                     ret_msg = game.input_word(message['message'].get('text'))
                     send_message(recipient_id, ret_msg)
                     ret_msg = game.check_game_status()
+                    ret_img = game.get_hangman_photo_url
+                    send_image(recipient_id, ret_img)
                     send_message(recipient_id, ret_msg)
-                #if user sends us a GIF, photo,video, or any other non-text item
+                #if user sends us a GIF, photo,video, or any other non-text item, reply yee
                 if message['message'].get('attachments'):
                     response_sent_photo = "https://i.imgur.com/dTki2aL.jpg"
                     send_image(recipient_id, response_sent_photo)
