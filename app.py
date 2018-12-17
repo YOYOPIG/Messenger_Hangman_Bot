@@ -5,7 +5,7 @@ from pymessenger.bot import Bot
 from hangman import Hangman
 
 app = Flask(__name__)
-ACCESS_TOKEN = 'EAAGI3SnPwP0BADklLvvbmG4aWBMN4PXfAT9plW2JthDh7TRhXdk4uwu1TMtusi4zcD9w4M2dZBAZAQtdwOXsGqHPl7BQwH5Wl7ORuwDXmB2XeeiJbxePDX91MINvgFJ0Xpy38mj8nw0FODdcp2OgIlrXbwrXstK6KZAo1D1t7m8G0XZCLiCF'
+ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
 VERIFY_TOKEN = 'TooTiredToYEE'
 bot = Bot(ACCESS_TOKEN)
 game = Hangman("hangman")
