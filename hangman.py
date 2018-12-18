@@ -20,7 +20,8 @@ class Hangman(object):
 
     # Initialize the game state
     def game_start(self):
-        self.start()
+        if(self.state=="idle"):
+            self.start()
         self.missed_guesses = ""
         self.miss_ctr = 0
         self.hit_ctr = 0
