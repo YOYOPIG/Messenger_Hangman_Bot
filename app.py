@@ -31,11 +31,14 @@ def receive_message():
                 recipient_id = message['sender']['id']
                 # Read msg and reply
                 if message['message'].get('nlp'):
+                    print("nlp!")
                     nlp = message['message'].get('nlp')
-                    if nlp.get('greetings') and nlp.get('greetings').get('confidence')>0.8:
+                    if nlp.get('greetings'):
                         print("Greetings!")
-                        send_message(recipient_id, "Hi")
-                        return "Message Processed"
+                        greetings = nlp.get('greetings')
+                        if  greetings.get('confidence')>0.8:
+                            send_message(recipient_id, "Hi")
+                            return "Message Processed"
                 if message['message'].get('text') == "start":
                     ret_msg = game.game_start()
                     send_message(recipient_id, ret_msg)
