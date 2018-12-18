@@ -33,6 +33,7 @@ def receive_message():
                 if message['message'].get('nlp'):
                     print("nlp!")
                     nlp = message['message'].get('nlp')
+                    print(nlp)
                     if nlp.get('greetings'):
                         print("Greetings!")
                         greetings = nlp.get('greetings')
