@@ -11,13 +11,6 @@ VERIFY_TOKEN = 'TooTiredToYEE'
 bot = Bot(ACCESS_TOKEN)
 
 game = Hangman("hangman")
-print(game.state)
-game.game_start()
-print(game.state)
-game.input_word("i")
-print(game.state)
-game.check_game_status()
-print(game.state)
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
