@@ -9,8 +9,15 @@ app = Flask(__name__)
 ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
 VERIFY_TOKEN = 'TooTiredToYEE'
 bot = Bot(ACCESS_TOKEN)
+
 game = Hangman("hangman")
-#game.game_start()
+print(game.state)
+game.game_start()
+print(game.state)
+game.input_word("i")
+print(game.state)
+game.check_game_status()
+print(game.state)
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
@@ -58,13 +65,6 @@ def verify_fb_token(token_sent):
     if token_sent == VERIFY_TOKEN:
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
-
-
-#chooses a random message to send to the user
-def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-    # return selected item to the user
-    return random.choice(sample_responses)
 
 def send_image(recipient_id, image_url):
     #sends user the image message provided via input url

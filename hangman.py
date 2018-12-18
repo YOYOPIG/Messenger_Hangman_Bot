@@ -4,21 +4,23 @@ from transitions import Machine
 class Hangman(object):
 
     WORDLIST_FILENAME = "words.txt"
-    states = ['idle', 'game running', 'finding word', 'checking status']
+    #states = ['idle', 'game running', 'finding word', 'checking status']
 
     def __init__(self, name):
+        states = ['idle', 'game running', 'finding word', 'checking status']
         self.name = name
         self.gg=True #bool for game over
-        self.machine = Machine(model=self, states=Hangman.states, initial='idle')
-        self.machine.add_transition(trigger='game_start', source='idle', dest='game running')
-        self.machine.add_transition(trigger='input_word', source='game running', dest='finding word')
-        self.machine.add_transition(trigger='check_game_status', source='finding word', dest='checking status')
+        self.machine = Machine(model=self, states=states, initial='idle')
+        self.machine.add_transition(trigger='start', source='idle', dest='game running')
+        self.machine.add_transition(trigger='in_word', source='game running', dest='finding word')
+        self.machine.add_transition(trigger='check_status', source='finding word', dest='checking status')
         self.machine.add_transition(trigger='back_to_running', source='checking status', dest='game running')
-        self.machine.add_transition(trigger='game_over', source='checking status', dest='idle')
+        self.machine.add_transition(trigger='end', source='checking status', dest='idle')
 
 
     # Initialize the game state
     def game_start(self):
+        self.start()
         self.missed_guesses = ""
         self.miss_ctr = 0
         self.hit_ctr = 0
@@ -76,6 +78,7 @@ class Hangman(object):
         
     def input_word(self, user_input):
         # Make sure its lowercase!
+        self.in_word() #for transition
         guess = user_input.lower()
         if len(guess)>1:
             if len(guess)==self.target_length:
@@ -108,6 +111,7 @@ class Hangman(object):
 
     def check_game_status(self):
         #check winning conditions
+        self.check_status() #for transition
         print("hit = ", self.hit_ctr)
         print("len = ", self.target_length)
         if self.hit_ctr==self.target_length:
@@ -143,9 +147,8 @@ class Hangman(object):
     def get_game_done(self):
         return self.gg
 
-    def back_to_running(self):
-        return
 
     def game_over(self):
+        self.end() #for transition
         self.gg = True
         return
