@@ -1,4 +1,3 @@
-#Python libraries that we need to import for our bot
 import random
 import os
 from flask import Flask, request
@@ -12,15 +11,14 @@ bot = Bot(ACCESS_TOKEN)
 
 game = Hangman("hangman")
 
-#We will receive messages that Facebook sends our bot at this endpoint 
+# Handle received messages that Facebook sends our bot here 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
     if request.method == 'GET':
-        """Before allowing people to message your bot, Facebook has implemented a verify token
-        that confirms all requests that your bot receives came from Facebook.""" 
+        # Deal with the verify token when the program receive a GET request from facebook.
         token_sent = request.args.get("hub.verify_token")
         return verify_fb_token(token_sent)
-    #if the request was not get, it must be POST and we can just proceed with sending a message back to user
+    # Handle user's message and reply to them when we get a POST request
     else:
        # get whatever message a user sent the bot
        output = request.get_json()
@@ -28,9 +26,9 @@ def receive_message():
           messaging = event['messaging']
           for message in messaging:
             if message.get('message'):
-                #Facebook Messenger ID for user so we know where to send response back to
+                # Facebook Messenger ID of user to reply to
                 recipient_id = message['sender']['id']
-                #send msg
+                # Read msg and reply
                 if message['message'].get('text') == "start":
                     ret_msg = game.game_start()
                     send_message(recipient_id, ret_msg)
@@ -45,7 +43,7 @@ def receive_message():
                         ret_img = game.get_hangman_photo_url()
                         send_image(recipient_id, ret_img)
                         send_message(recipient_id, ret_msg)
-                #if user sends us a GIF, photo,video, or any other non-text item, reply yee
+                # If user sends a non-text item such as photos or videos, reply yee
                 if message['message'].get('attachments'):
                     response_sent_photo = "https://i.imgur.com/dTki2aL.jpg"
                     send_image(recipient_id, response_sent_photo)
@@ -53,20 +51,20 @@ def receive_message():
 
 
 def verify_fb_token(token_sent):
-    #take token sent by facebook and verify it matches the verify token you sent
-    #if they match, allow the request, else return an error 
+    """Verify the token sent by facebook which should match the verify token you sent
+    allow the request only when they match, else return an error"""
     if token_sent == VERIFY_TOKEN:
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
 
+# Use PyMessenger to send response to user
 def send_image(recipient_id, image_url):
-    #sends user the image message provided via input url
+    # Send user the image thru image_url
     bot.send_image_url(recipient_id, image_url)
     return "success"
 
-#uses PyMessenger to send response to user
 def send_message(recipient_id, response):
-    #sends user the text message provided via input response parameter
+    # Send user the text response
     bot.send_text_message(recipient_id, response)
     return "success"
 

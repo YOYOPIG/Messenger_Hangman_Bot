@@ -4,7 +4,6 @@ from transitions import Machine
 class Hangman(object):
 
     WORDLIST_FILENAME = "words.txt"
-    #states = ['idle', 'game running', 'finding word', 'checking status']
 
     def __init__(self, name):
         states = ['idle', 'game running', 'finding word', 'checking status']
@@ -16,7 +15,6 @@ class Hangman(object):
         self.machine.add_transition(trigger='check_status', source='finding word', dest='checking status')
         self.machine.add_transition(trigger='back_to_running', source='checking status', dest='game running')
         self.machine.add_transition(trigger='end', source='checking status', dest='idle')
-
 
     # Initialize the game state
     def game_start(self):
@@ -37,10 +35,9 @@ class Hangman(object):
 
         # Print starting msg
         print("Game started.")
-        string = "Welcome to the game Hangman!\n"
-        string += "The word is " + str(self.target_length) + " letters long."
+        string = "Want to escape? Guess the word then!\n"
+        string += "The word is " + str(self.target_length) + " letters long.\nGood luck!"
         return string
-
 
     def get_target_word(self, filename):
         """
@@ -48,28 +45,24 @@ class Hangman(object):
         filename : the string of input file's name.
         Sets the word to guess in lowercase.
         """
-        print("Loading word list from file...")
-        # inFile: file
         inFile = open(filename, 'r')
-        # line: string
         line = inFile.readline()
-        # wordlist: list of strings
         words = line.split()
         self.target_word = random.choice(words).lower()
         return
 
-    #get current guessing progress
-    def get_guessed_word(self, secretWord, lettersGuessed):
+    # Get current guessing progress
+    def get_guessed_word(self, target, guessed):
         '''
-        secretWord : string, the word the user is guessing
-        lettersGuessed : list, what letters have been guessed so far
+        target : string, the word the user is guessing
+        guessed : list, what letters have been guessed so far
         returns: string, comprised of letters and underscores that represents
-        what letters in secretWord have been guessed so far.
+        what letters in target have been guessed so far.
         '''
         string=""
         self.hit_ctr = 0
-        for key in secretWord:
-            if key in lettersGuessed:
+        for key in target:
+            if key in guessed:
                 string+=key
                 string+=" "
                 self.hit_ctr+=1
@@ -119,9 +112,8 @@ class Hangman(object):
             string = "Congratulations, you won!"
             self.game_over()
         elif self.total_chances - self.miss_ctr>0:
-            string = "You have "
-            string += str(self.total_chances - self.miss_ctr)
-            string += " guesses left."
+            string = "Guessed letters : "
+            string += guessed_letters
             self.back_to_running()
         elif self.total_chances - self.miss_ctr==0:
             string = "Sorry, you ran out of guesses. The word was "
@@ -147,7 +139,6 @@ class Hangman(object):
 
     def get_game_done(self):
         return self.gg
-
 
     def game_over(self):
         self.end() #for transition
