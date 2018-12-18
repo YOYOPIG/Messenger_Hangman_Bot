@@ -1,5 +1,6 @@
 import random
 from transitions import Machine
+#from transitions.extensions import GraphMachine as Machine
 
 class Hangman(object):
 

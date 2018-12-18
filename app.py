@@ -10,6 +10,7 @@ VERIFY_TOKEN = 'TooTiredToYEE'
 bot = Bot(ACCESS_TOKEN)
 
 game = Hangman("hangman")
+#game.machine.get_graph().draw('fsm.png', prog='dot', format='png')
 
 # Handle received messages that Facebook sends our bot here 
 @app.route("/", methods=['GET', 'POST'])
@@ -29,6 +30,11 @@ def receive_message():
                 # Facebook Messenger ID of user to reply to
                 recipient_id = message['sender']['id']
                 # Read msg and reply
+                if message['message'].get('nlp'):
+                    nlp = message['message'].get('nlp')
+                    if nlp.entities['greetings'] and nlp.entities['greetings'].confidence>0.8:
+                        print("Greetings!")
+                        return "Message Processed"
                 if message['message'].get('text') == "start":
                     ret_msg = game.game_start()
                     send_message(recipient_id, ret_msg)
