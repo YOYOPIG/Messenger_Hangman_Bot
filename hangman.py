@@ -72,7 +72,8 @@ class Hangman(object):
         
     def input_word(self, user_input):
         # Make sure its lowercase!
-        self.in_word() #for transition
+        if(self.state=="game running"):
+            self.in_word() #for transition
         guess = user_input.lower()
         if len(guess)>1:
             if len(guess)==self.target_length:
@@ -105,7 +106,8 @@ class Hangman(object):
 
     def check_game_status(self):
         #check winning conditions
-        self.check_status() #for transition
+        if(self.state=="finding word"):
+            self.check_status() #for transition
         print("hit = ", self.hit_ctr)
         print("len = ", self.target_length)
         if self.hit_ctr==self.target_length:
@@ -113,7 +115,7 @@ class Hangman(object):
             self.game_over()
         elif self.total_chances - self.miss_ctr>0:
             string = "Guessed letters : "
-            string += guessed_letters
+            string += self.guessed_letters
             self.back_to_running()
         elif self.total_chances - self.miss_ctr==0:
             string = "Sorry, you ran out of guesses. The word was "
