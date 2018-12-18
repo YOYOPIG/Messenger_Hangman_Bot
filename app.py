@@ -32,8 +32,9 @@ def receive_message():
                 # Read msg and reply
                 if message['message'].get('nlp'):
                     nlp = message['message'].get('nlp')
-                    if nlp.entities['greetings'] and nlp.entities['greetings'].confidence>0.8:
+                    if nlp.get('greetings') and nlp.get('greetings').get('confidence')>0.8:
                         print("Greetings!")
+                        send_message(recipient_id, "Hi")
                         return "Message Processed"
                 if message['message'].get('text') == "start":
                     ret_msg = game.game_start()
