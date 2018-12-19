@@ -31,10 +31,8 @@ def receive_message():
                 # Read msg and reply
                 # Handle nlp of greetings category
                 if message['message'].get('nlp'):
-                    print("nlp!")
                     nlp = message['message'].get('nlp')
                     if nlp.get('entities'):
-                        print("entities!")
                         entities = nlp.get('entities')
                         if 'greetings' in entities:
                             greetings = entities['greetings'][0] #first greetings dictionary
@@ -44,7 +42,7 @@ def receive_message():
                                 return "Message Processed"
                 # Handle valid msgs in game
                 if message['message'].get('text') == "start":
-                    # Start the game
+                    # Start/restart the game
                     ret_msg = game.game_start()
                     send_message(recipient_id, ret_msg)
                 elif message['message'].get('text') == "help" and game.state=="idle":
