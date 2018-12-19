@@ -38,7 +38,7 @@ def receive_message():
                     if nlp.get('entities'):
                         print("entities!")
                         entities = nlp.get('entities')
-                        greetings = entities.get('greetings')
+                        greetings = entities['greetings']
                         if  greetings.get('confidence')>0.8:
                             send_message(recipient_id, "Hi")
                             return "Message Processed"
