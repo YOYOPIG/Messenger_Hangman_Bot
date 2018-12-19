@@ -10,7 +10,6 @@ VERIFY_TOKEN = 'TooTiredToYEE'
 bot = Bot(ACCESS_TOKEN)
 
 game = Hangman("hangman")
-#game.machine.get_graph().draw('fsm.png', prog='dot', format='png')
 
 # Handle received messages that Facebook sends our bot here 
 @app.route("/", methods=['GET', 'POST'])
@@ -51,7 +50,7 @@ def receive_message():
                 elif message['message'].get('text') == "help":
                     # Help the user with rules
                     send_message(recipient_id, "Hangman is a word guessing game.")
-                    send_message(recipient_id, "You can :\n1. Guess a letter\n2. Guess the whole word\n at a time.")
+                    send_message(recipient_id, "You can :\n1. Guess a letter\n2. Guess the whole word\nat a time.")
                     send_message(recipient_id, "Keep this in mind : You have only 5 chances to miss without losing, so guess wisely!")
                 elif message['message'].get('text') == "what":
                     # Google it for users

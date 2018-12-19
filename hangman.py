@@ -1,6 +1,5 @@
 import random
 from transitions import Machine
-#from transitions.extensions import GraphMachine as Machine
 
 class Hangman(object):
 
@@ -106,7 +105,7 @@ class Hangman(object):
         return string
 
     def check_game_status(self):
-        #check winning conditions
+        # Check winning conditions
         if(self.state=="finding word"):
             self.check_status() #for transition
         print("hit = ", self.hit_ctr)
