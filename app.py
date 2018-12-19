@@ -41,7 +41,7 @@ def receive_message():
                             greetings = entities['greetings'][0] #first greetings dictionary
                             if  greetings['confidence']>0.8:
                                 send_message(recipient_id, "Hello! Welcome to Hangman!")
-                                send_message(recipient_id, "Type in :\n 1. start - start playing!\n2. help - show rules><\n3. what - What's Hangman?")
+                                send_message(recipient_id, "Type in :\n1. start - start playing!\n2. help - show rules><\n3. what - What's Hangman?")
                                 return "Message Processed"
                 # Handle valid msgs in game
                 if message['message'].get('text') == "start":
@@ -51,11 +51,11 @@ def receive_message():
                 elif message['message'].get('text') == "help":
                     # Help the user with rules
                     send_message(recipient_id, "Hangman is a word guessing game.")
-                    send_message(recipient_id, "You can :\n1. Guess a letter\n2.Guess the whole word\n at a time.")
-                    send_message(recipient_id, "Keep this in mind : You have only 5 chances to miss without losing. Guess wisely!")
+                    send_message(recipient_id, "You can :\n1. Guess a letter\n2. Guess the whole word\n at a time.")
+                    send_message(recipient_id, "Keep this in mind : You have only 5 chances to miss without losing, so guess wisely!")
                 elif message['message'].get('text') == "what":
                     # Google it for users
-                    send_message(recipient_id, "Why not google it yourself?")
+                    send_message(recipient_id, "Why don't you google it yourself?")
                     send_message(recipient_id, "https://www.google.com/search?q=hangman")
                     send_message(recipient_id, "See? Is it that hard?")
                 elif message['message'].get('text'):
