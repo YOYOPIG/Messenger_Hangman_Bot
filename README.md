@@ -1,5 +1,18 @@
-# Hangman for Messenger
-Hi! This is a Facebook Messenger chatbot program allowing you to play the famous word guessing game "Hangman". In this program, you can chat with the bot with the following messages:
+﻿# Hangman for Messenger
+Hi! This is a Facebook Messenger chatbot program allowing you to play the famous word guessing game "Hangman". 
+
+### Running the program
+In order to run, make sure you have the following installed : 
+
+- Python 3
+ - Flask
+ - pymessenger
+- pytransitions
+
+Then, just simply run app.py and things should be working.
+
+### How to play
+In this program, you can chat with the bot with the following messages:
 
  - **start** : To start the game
  - **help** : Show the rules of the game
