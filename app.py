@@ -30,7 +30,7 @@ def receive_message():
                 recipient_id = message['sender']['id']
                 # Read msg and reply
                 # Handle nlp of greetings category
-                if message['message'].get('nlp'):
+                if message['message'].get('nlp') and game.state=="idle":
                     nlp = message['message'].get('nlp')
                     if nlp.get('entities'):
                         entities = nlp.get('entities')
