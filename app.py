@@ -19,11 +19,11 @@ def receive_message():
         # Deal with the verify token when the program receive a GET request from facebook.
         token_sent = request.args.get("hub.verify_token")
         return verify_fb_token(token_sent)
-    # Handle user's message and reply to them when we get a POST request
     else:
-       # get whatever message a user sent the bot
-       output = request.get_json()
-       for event in output['entry']:
+        # Handle user's message and reply to them when we get a POST request
+        # get whatever message a user sent the bot
+        output = request.get_json()
+        for event in output['entry']:
           messaging = event['messaging']
           for message in messaging:
             if message.get('message'):
@@ -34,15 +34,14 @@ def receive_message():
                 if message['message'].get('nlp'):
                     print("nlp!")
                     nlp = message['message'].get('nlp')
-                    print(nlp)
                     if nlp.get('entities'):
                         print("entities!")
                         entities = nlp.get('entities')
-                        greetings = entities['greetings'][0] #first greetings dictionary
-                        if  greetings['confidence']>0.8:
-                            send_message(recipient_id, "Hi")
-                            return "Message Processed"
-                
+                        if 'greetings' in entities:
+                            greetings = entities['greetings'][0] #first greetings dictionary
+                            if  greetings['confidence']>0.8:
+                                send_message(recipient_id, "Hello! Welcome to Hangman!\nType start to start playing!")
+                                return "Message Processed"
                 # Handle valid msgs in game
                 if message['message'].get('text') == "start":
                     ret_msg = game.game_start()
