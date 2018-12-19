@@ -40,7 +40,7 @@ def receive_message():
                         if 'greetings' in entities:
                             greetings = entities['greetings'][0] #first greetings dictionary
                             if  greetings['confidence']>0.8:
-                                send_message(recipient_id, "Hello! Welcome to Hangman!)
+                                send_message(recipient_id, "Hello! Welcome to Hangman!")
                                 send_message(recipient_id, "Type in :\n 1. start - start playing!\n2. help - show rules><\n3. what - What's Hangman?")
                                 return "Message Processed"
                 # Handle valid msgs in game
