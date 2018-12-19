@@ -38,10 +38,12 @@ def receive_message():
                     if nlp.get('entities'):
                         print("entities!")
                         entities = nlp.get('entities')
-                        greetings = entities['greetings']
+                        greetings = entities['greetings'][0]
                         if  greetings.confidence>0.8:
                             send_message(recipient_id, "Hi")
                             return "Message Processed"
+                
+                # Handle valid msgs in game
                 if message['message'].get('text') == "start":
                     ret_msg = game.game_start()
                     send_message(recipient_id, ret_msg)
@@ -81,25 +83,6 @@ def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response)
     return "success"
 
-def wit_response(message_text):
-	resp=client.message(message_text)
-	
-	entity=None
-	value=None
-	categories=None
-	try:
-		entity=list(resp['entities'])[0]
-		
-		value=resp['entities'][entity][0]['value']
-		if(entity=='location'):
-			loc['area']=None
-			loc['area']="{}".format(str(value))
-		categories={'news':None}
-		categories[entity] = resp['entities'][entity][0]['value']
-	except:
-		pass
-
-	return(entity,value,categories)
 
 if __name__ == "__main__":
     app.run()
