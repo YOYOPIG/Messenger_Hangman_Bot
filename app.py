@@ -30,13 +30,15 @@ def receive_message():
                 # Facebook Messenger ID of user to reply to
                 recipient_id = message['sender']['id']
                 # Read msg and reply
+                # Handle nlp of greetings category
                 if message['message'].get('nlp'):
                     print("nlp!")
                     nlp = message['message'].get('nlp')
                     print(nlp)
-                    if nlp.get('greetings'):
-                        print("Greetings!")
-                        greetings = nlp.get('greetings')
+                    if nlp.get('entities'):
+                        print("entities!")
+                        entities = nlp.get('entities')
+                        greetings = entities.get('greetings')
                         if  greetings.get('confidence')>0.8:
                             send_message(recipient_id, "Hi")
                             return "Message Processed"
@@ -78,6 +80,26 @@ def send_message(recipient_id, response):
     # Send user the text response
     bot.send_text_message(recipient_id, response)
     return "success"
+
+def wit_response(message_text):
+	resp=client.message(message_text)
+	
+	entity=None
+	value=None
+	categories=None
+	try:
+		entity=list(resp['entities'])[0]
+		
+		value=resp['entities'][entity][0]['value']
+		if(entity=='location'):
+			loc['area']=None
+			loc['area']="{}".format(str(value))
+		categories={'news':None}
+		categories[entity] = resp['entities'][entity][0]['value']
+	except:
+		pass
+
+	return(entity,value,categories)
 
 if __name__ == "__main__":
     app.run()
