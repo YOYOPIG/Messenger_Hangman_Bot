@@ -47,16 +47,21 @@ def receive_message():
                     # Start the game
                     ret_msg = game.game_start()
                     send_message(recipient_id, ret_msg)
-                elif message['message'].get('text') == "help":
+                elif message['message'].get('text') == "help" and game.state=="idle":
                     # Help the user with rules
+                    game.get_help()
                     send_message(recipient_id, "Hangman is a word guessing game.")
+                    game.show_rules()
                     send_message(recipient_id, "You can :\n1. Guess a letter\n2. Guess the whole word\nat a time.")
                     send_message(recipient_id, "Keep this in mind : You have only 5 chances to miss without losing, so guess wisely!")
-                elif message['message'].get('text') == "what":
+                    game.back_to_idle()
+                elif message['message'].get('text') == "what"and game.state=="idle":
                     # Google it for users
+                    game.what_is()
                     send_message(recipient_id, "Why don't you google it yourself?")
                     send_message(recipient_id, "https://www.google.com/search?q=hangman")
                     send_message(recipient_id, "See? Is it that hard?")
+                    game.back_to_idle()
                 elif message['message'].get('text'):
                     # User is playing
                     if game.get_game_done():

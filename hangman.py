@@ -6,7 +6,7 @@ class Hangman(object):
     WORDLIST_FILENAME = "words.txt"
 
     def __init__(self, name):
-        states = ['idle', 'game running', 'finding word', 'checking status']
+        states = ['idle', 'game running', 'finding word', 'checking status', 'help', 'showing_rules', 'googling']
         self.name = name
         self.gg=True #bool for game over
         self.machine = Machine(model=self, states=states, initial='idle')
@@ -15,6 +15,11 @@ class Hangman(object):
         self.machine.add_transition(trigger='check_status', source='finding word', dest='checking status')
         self.machine.add_transition(trigger='back_to_running', source='checking status', dest='game running')
         self.machine.add_transition(trigger='end', source='checking status', dest='idle')
+        self.machine.add_transition(trigger='what_is', source='idle', dest='googling')
+        self.machine.add_transition(trigger='get_help', source='idle', dest='help')
+        self.machine.add_transition(trigger='show_rules', source='help', dest='showing_rules')
+        self.machine.add_transition(trigger='back_to_idle', source='showing_rules', dest='idle')
+        self.machine.add_transition(trigger='back_to_idle', source='googling', dest='idle')
 
     # Initialize the game state
     def game_start(self):

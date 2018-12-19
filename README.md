@@ -1,4 +1,4 @@
-﻿# Hangman for Messenger
+# Hangman for Messenger
 Hi! This is a Facebook Messenger chatbot program allowing you to play the famous word guessing game "Hangman". In this program, you can chat with the bot with the following messages:
 
  - **start** : To start the game
@@ -12,5 +12,5 @@ After the game started, you can try to guess the word with the following methods
  - **Guess the whole word** : You can guess the whole word as well. Keep this in mind : you will also lose a chance if you miss!
 
 Finite state machine of the program : 
-![Finite state machine](https://i.imgur.com/n3Ldjdm.png)
+![Finite state machine](https://drive.google.com/open?id=1QD7u3a4T4NTlcYKgTOmeP0gHJkXs1Dce)
 
